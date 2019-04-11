@@ -15,7 +15,7 @@ class ICA:
     '''
     
     def __init__(self):
-        self.max_iter = 200
+        self.max_iter = 500
         self.eta = 1.0e-4 # is step size
         self.EPS = 1.0e-12 # is epsilon for sign function below.
 
