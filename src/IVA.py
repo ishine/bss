@@ -20,9 +20,8 @@ class IVA:
         @param(nperseg): length of each segment.
         @param(noverlap): number of points to overlap between segments.
         '''
-        self.max_iter = 200
-        self.eta = 1.0 * 10 ** (-4)  # is step size
-        self.m_shit = 5
+        self.max_iter = 1000
+        self.eta = 2.5 * 10 ** (-2)  # is step size
         self.x = np.array(x)
         self.sample_freq = sample_freq
         self.win = win
@@ -36,7 +35,7 @@ class IVA:
         '''
 
         f, _, X = stft(self.x, self.sample_freq, self.win, self.nperseg, self.noverlap)
-        # X is (channel index, freq index, time segment idex)
+        # X is (channel index, freq index, time segment index)
 
         y = self.reconstruct(X)
 
@@ -59,28 +58,6 @@ class IVA:
             y[:,k,:] = np.dot(w[k,:,:], X[:,k,:])
 
         return y
-
-    """
-    def __phi_func(self, y):
-        # y is (channel index, freq index)
-        # return is (channel index, freq index)
-        ysq = np.sum(np.abs(y)**2, axis=1)
-        ysq1 = 1/np.sqrt(ysq)
-        phi = (ysq1*y.T).T
-        return phi
-
-
-    def __alpha(self, y):
-        # y is (channel index, freq index, time segment index)
-        M, K, T = y.shape
-        alpha = np.zeros((K, M, M), dtype=np.complex64)
-        for t in range(T):
-            phi = self.__phi_func(y[:,:,t])
-            for k in range(K):
-                alpha[k,:,:] += np.dot(np.matrix(phi[:,k]).T, np.matrix(y[:,k,t].conjugate()))
-        alpha = alpha / T
-        return np.array(alpha)
-    """
 
     def __alpha2(self, y):
         # y is (channel index, freq index, time segment index)

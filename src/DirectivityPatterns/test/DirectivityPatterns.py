@@ -78,7 +78,6 @@ class FDICA(ICA):
 
         f,_,X = stft(self.x, self.sample_freq, self.win, self.nperseg, self.noverlap)
         # X is (channel index, freq index, time segment idex)
-        print(X.shape)
         Y = self.reconstruct(f,X,self.n)
 
         _,x_prd = istft(Y, self.sample_freq, self.win, self.nperseg, self.noverlap)
@@ -173,18 +172,12 @@ class FDICA(ICA):
 
 
             #規格化
-            #Fを最小化するところで規格化してしまっているが、音源方向はABFによる音の抑制は少ないと考えられるのでこのまま規格化している
             W[0,:,i] = W[0,:,i]/F0(-np.pi/4)
             W[1,:,i] = W[1,:,i]/F1(0)
             W[2,:,i] = W[2,:,i]/F2(np.pi/4)
 
-            print(W[0,:,i])
-            print("aaaaa")
             W_X = np.dot(W[:,:,i],X[:,i,:])
             Y[:,i,:] = W_X
-            print(Y[:,i,:])
             print(i)
-
-            sys.exit()
         
         return Y
