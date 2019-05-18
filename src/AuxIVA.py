@@ -12,13 +12,14 @@ import sys
 
 class AuxIVA:
 
-    def __init__(self, x, sample_freq, beta=0.2, win='hanning', nperseg=256, noverlap=128,nchannel=3):
+    def __init__(self, x, sample_freq, beta=0.3, win='hanning', nperseg=256, noverlap=128,nchannel=3):
         '''
         @param(win):str, desired window to use.
         @param(nperseg): length of each segment.
         @param(noverlap): number of points to overlap between segments.
         '''
-        self.max_iter = 20
+
+        self.max_iter = 100
         self.x = np.array(x)
         self.sample_freq = sample_freq
         self.win = win
@@ -68,7 +69,6 @@ class AuxIVA:
                     W[f,k,:] = np.conjugate(w_k)
                 Y_k[:,f,:] = np.dot(W[f,:,:],X[:,f,:])
             self.Scaling(W,Y_k,n_timesegment,nchannel,n_bin)
-            print(i)
         return W
 
     def Y_L2norm(self,W,X,n_bin,n_timesegment,nchannel):

@@ -125,5 +125,17 @@ class ILRMA:
                 R[n,:,:] = R[n,:,:] / lam**2
                 T[n,:,:] = T[n,:,:] / lam**2
 
+<<<<<<< HEAD
         return W
 
+=======
+        """back projection"""
+        for i in range(I):
+            W[:,:,i] = self.back_projection(W[:,:,i])
+
+        return W
+
+    def back_projection(self, w):
+        w = np.dot(np.diag(np.diag(inv(w))), w)
+        return w
+>>>>>>> c7880457e08370f2d3e78a6fc889bd032841045f
